@@ -27,9 +27,15 @@ public class CurrencyConvertorController {
         return new ResponseEntity<>(convertedAmount, HttpStatus.OK);
     }
 
-    @PostMapping("createCustomer")
+    @PostMapping("customer")
     public ResponseEntity<String> createCustomer(@RequestBody Customer customer){
-        String status = customerService.create(customer);
-        return new ResponseEntity<>(status, HttpStatus.OK);
+        Long status = customerService.create(customer);
+        return new ResponseEntity<>(String.valueOf(status), HttpStatus.OK);
+    }
+
+    @PutMapping("/customer/{id}")
+    public ResponseEntity<String> updateCustomer(@PathVariable Long id, @RequestBody Customer customer){
+        Long status = customerService.update(customer, id);
+        return new ResponseEntity<>(String.valueOf(status), HttpStatus.OK);
     }
 }
