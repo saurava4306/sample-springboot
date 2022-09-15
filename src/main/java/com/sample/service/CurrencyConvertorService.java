@@ -1,6 +1,6 @@
 package com.sample.service;
 
-import com.sample.service.factory.CurrencyConverterFactory;
+import com.sample.factory.CurrencyConverterFactory;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;

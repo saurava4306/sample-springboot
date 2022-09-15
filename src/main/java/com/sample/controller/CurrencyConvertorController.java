@@ -1,41 +1,29 @@
 package com.sample.controller;
 
 import com.sample.service.CurrencyConvertorService;
-import com.sample.service.CustomerService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import com.sample.model.Customer;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.math.BigDecimal;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/convertor")
 public class CurrencyConvertorController {
 
     private final CurrencyConvertorService currencyConvertorService;
-    private final CustomerService customerService;
 
-    public CurrencyConvertorController(CurrencyConvertorService currencyConvertorService, CustomerService customerService) {
+    public CurrencyConvertorController(CurrencyConvertorService currencyConvertorService) {
         this.currencyConvertorService = currencyConvertorService;
-        this.customerService = customerService;
     }
 
-    @GetMapping("convertToUSD")
+    @GetMapping("toUSD")
     public ResponseEntity<BigDecimal> convertToUSD(@RequestParam String currencyCode, @RequestParam BigDecimal amount){
         BigDecimal convertedAmount = currencyConvertorService.getConvertedAmount(currencyCode, amount);
         return new ResponseEntity<>(convertedAmount, HttpStatus.OK);
     }
 
-    @PostMapping("customer")
-    public ResponseEntity<String> createCustomer(@RequestBody Customer customer){
-        Long status = customerService.create(customer);
-        return new ResponseEntity<>(String.valueOf(status), HttpStatus.OK);
-    }
-
-    @PutMapping("/customer/{id}")
-    public ResponseEntity<String> updateCustomer(@PathVariable Long id, @RequestBody Customer customer){
-        Long status = customerService.update(customer, id);
-        return new ResponseEntity<>(String.valueOf(status), HttpStatus.OK);
-    }
 }

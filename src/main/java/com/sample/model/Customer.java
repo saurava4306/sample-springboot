@@ -1,8 +1,10 @@
 package com.sample.model;
 
+import lombok.Builder;
+
 import java.util.List;
 
-
+@Builder
 public class Customer {
     private String name;
     private String id;

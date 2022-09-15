@@ -1,4 +1,4 @@
-package com.sample.service.factory;
+package com.sample.factory;
 
 import com.sample.service.CurrencyConvertor;
 import org.springframework.stereotype.Component;

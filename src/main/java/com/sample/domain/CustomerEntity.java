@@ -8,6 +8,8 @@ import javax.persistence.*;
 @Table(name = "CUSTOMERS")
 public class CustomerEntity {
 
+    public CustomerEntity() {
+    }
     @Id
     //@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -26,7 +28,16 @@ public class CustomerEntity {
         return id;
     }
 
-    public CustomerEntity() {
+    public String getName() {
+        return name;
+    }
+
+    public CustomerType getType() {
+        return type;
+    }
+
+    public String getPrimaryPhoneNumber() {
+        return primaryPhoneNumber;
     }
 
     public CustomerEntity(Long id, String name, CustomerType type, String primaryPhoneNumber) {
@@ -69,7 +80,5 @@ public class CustomerEntity {
         public CustomerEntity build() {
             return new CustomerEntity(this.id, this.name, this.type, this.phoneNumber);
         }
-
-
     }
 }
