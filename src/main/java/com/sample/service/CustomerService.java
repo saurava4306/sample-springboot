@@ -1,5 +1,6 @@
 package com.sample.service;
 
+import com.sample.aspect.Loggable;
 import com.sample.domain.CustomerEntity;
 import com.sample.exception.BadRequestException;
 import com.sample.model.Customer;
@@ -21,11 +22,14 @@ public class CustomerService {
         this.repository = repository;
     }
 
+    @Loggable
     public Long create(Customer customer) {
 
-        if(repository.getByPhoneNumber(customer.getPhoneNumbers().get(0)) != null){
+        /*if(repository.getByPhoneNumber(customer.getPhoneNumbers().get(0)) != null){
             throw new BadRequestException("Customer Phone number already registered!");
-        }
+        }*/
+
+        repository.getByPhoneNumber(customer.getPhoneNumbers().get(0));
 
         CustomerEntity customerEntity = CustomerEntity.builder()
                 .id(new Random().nextLong())
@@ -37,9 +41,8 @@ public class CustomerService {
     }
 
     public Long update(Customer customer, Long id) {
-
         try{
-            repository.getById(id);
+            repository.findById(id);
         }catch (Exception ex){
             log.error("CustomerID:{} does not exist.", id);
             throw new BadRequestException(String.format("CustomerID:%s does not exist.", id));
@@ -57,10 +60,11 @@ public class CustomerService {
         return repository.save(customerEntity).getId();
     }
 
+    @Loggable
     public Customer retrieve(Long id) {
         CustomerEntity customerEntity;
         try{
-            customerEntity = repository.getById(id);
+            customerEntity = repository.findById(id).get();
         }catch (JpaObjectRetrievalFailureException | EntityNotFoundException ex ){
             log.error("CustomerID:{} does not exist.", id);
             throw new BadRequestException(String.format("CustomerID:%s does not exist.", id));
